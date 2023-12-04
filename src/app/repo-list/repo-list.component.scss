@@ -1,0 +1,10 @@
+.centerpaination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:host>>>ngx-skeleton-loader .skelLoader {
+    display: flex;
+    width: 2rem;
+}
