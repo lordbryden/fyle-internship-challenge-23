@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-repo-list',
@@ -13,10 +14,11 @@ export class RepoListComponent implements OnInit {
   @Input() repos : any[] = [];
   @Input() length :number = 0;
   // loader = false;
+  cardSkeleton = [1,2,3,4]
   items : any;
   pageSize: number = 10; // Number of items per page
   currentPage: number = 1; // Current page
-  value = 'okman';
+  value : any;
   displayedItems: any[] = [];
   isCopied: boolean = false;
   // length : number = 0 ;
@@ -29,6 +31,8 @@ export class RepoListComponent implements OnInit {
   disabled = false;
 
   pageEvent:any= PageEvent;
+  lastTriggeredPage: number= 0;
+  constructor(private  appcomponent : AppComponent) {}
 
   ngOnInit(): void {
 
@@ -48,6 +52,13 @@ export class RepoListComponent implements OnInit {
     const startIndex = (this.pageIndex - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.displayedItems = this.repos.slice(startIndex, endIndex);
+    console.log(this.pageSize)
+    if(endIndex % 100 === 0 && endIndex !== this.lastTriggeredPage && endIndex <= this.username.public_repos){
+      this.appcomponent.getUseCall(this.username.login);
+      this.lastTriggeredPage = endIndex;
+
+    }
+
   }
 
   onCopySuccess(): void {

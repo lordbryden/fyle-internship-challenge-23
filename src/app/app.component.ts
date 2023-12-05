@@ -8,28 +8,43 @@ import { ApiService } from './services/api.service';
 })
 export class AppComponent implements OnInit{
   username: any;
-  repos: any;
+  repos: any[] =[] ;
   loader = true;
   length: number = 0;
+  page: number = 0;
   constructor(
     private apiService: ApiService
   ) {}
 
   ngOnInit() {
-   this.apiService.getUser('johnpapa').subscribe( user => {
-    console.log(user);
-    this.username =user;
-    this.apiService.getUser('johnpapa/repos').subscribe( repos => {
-      this.repos = repos;
-      this.length = this.repos.length
-      console.log(this.repos.length)
-      console.log(repos)
-      // this.apiService.getUser('john')
-
-    });
-
-    this.loader = false;
-   });
+    this.getUseCall('johnpapa');
   }
+
+  getUseCall(data: string): void {
+    console.log(this.page)
+    this.apiService.getUser(data).subscribe( user => {
+      console.log(user);
+      this.username =user;
+      this.page++;
+
+      this.apiService.getRepos(data , this.page,100).subscribe( (repos: any) => {
+        repos.forEach((element: any) => {
+          this.repos.push(element)
+
+        });
+        console.log(this.repos)
+
+      },
+      (error) => {
+        console.error('Error fetching user repos', error);
+      });
+
+      this.loader = false;
+     },
+     (error) => {
+       console.error('Error fetching user user', error);
+     });  }
+
+
 
 }

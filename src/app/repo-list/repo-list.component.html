@@ -9,14 +9,14 @@
             <div>
 
                 <div class="flex pt-2 justify-center" *ngIf="!loader">
-                    <div class="relative inline-block" [cdkCopyToClipboard]="value" (cdkCopyToClipboardCopied)="onCopySuccess()">
+                    <div class="relative inline-block" [cdkCopyToClipboard]="username.url" (cdkCopyToClipboardCopied)="onCopySuccess()">
                         <svg matRipple class="h-8 w-8 text-blue-500 cursor-pointer transition duration-300 transform-gpu hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
                         <span *ngIf="isCopied" class="absolute bg-slate-200 text-black py-2 px-4 rounded mt-2 left-1/2 transform -translate-x-1/2 opacity-1 transition-opacity duration-300">
                           Copied!
                       </span>
                     </div>
 
-                    <a href="{{username.url}}" class=" p-1 text-blue-700 text-lg">{{username.url}}</a>
+                    <a href="{{username.html_url}}" class=" p-1 text-blue-700 text-lg">{{username.html_url}}</a>
 
                 </div>
                 <ngx-skeleton-loader count="1" appearance="line" *ngIf="loader" [theme]="{margin:'1rem 0'}"></ngx-skeleton-loader>
@@ -38,47 +38,59 @@
 
                 </div>
                 <p class="text-gray-700">
-                    <a href="twitterllink">Twitter:{{username.twitter_username}}</a>
+                    <span>Twitter: {{username.twitter_username}}</span>
                 </p>
             </div>
 
             <ngx-skeleton-loader count="4" appearance="line" *ngIf="loader"></ngx-skeleton-loader>
 
-            <!-- Add more information as needed -->
         </div>
     </div>
 </div>
 
 
-<div class="container mx-auto ">
-    <div class="grid grid-cols-1 md:grid-cols-2   p-4 ">
-        <div class=" rounded overflow-hidden shadow-lg outline outline-sky-300	rounded-2xl  m-3 " *ngFor="let item of repos | slice: (pageIndex - 1) * pageSize : pageIndex * pageSize">
-            <div class="px-3 py-4">
-                <div class="font-bold text-xl mb-2 text-blue-400	" *ngIf="!loader">{{item.name}}</div>
-                <ngx-skeleton-loader count="1" appearance="line" *ngIf="loader" [theme]="{width:'50%'}"></ngx-skeleton-loader>
+<div class="container mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 p-4">
+        <div class="rounded overflow-hidden shadow-lg outline outline-sky-300 rounded-2xl m-3" *ngFor="let item of repos | slice: (pageIndex - 1) * pageSize : pageIndex * pageSize">
+            <div class="flex flex-col h-full">
+                <div class="px-3 py-4 flex-grow">
+                    <div class="font-bold text-xl mb-2 text-blue-400" *ngIf="!loader">{{item.name}}</div>
+                    <p class="text-gray-700 text-base" *ngIf="!loader && item.description != null">
+                        {{item.description}}
+                    </p>
+                    <p class="text-gray-700 text-base" *ngIf="!loader && item.description == null">
+                        No description available
+                    </p>
+                </div>
+                <div class="px-6 pt-4 pb-2 flex flex-wrap ">
+                    <ng-container *ngIf="!loader && item.topics.length > 0">
+                        <span *ngFor="let topic of item.topics" class="inline-block bg-gray-200 rounded-full px-3 py-1 mx-1 text-sm font-semibold text-gray-700 mb-2">{{topic}}</span>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                <p class="text-gray-700 text-base" *ngIf="!loader && item.description != null">
-                    {{item.description}} </p>
-                <p class="text-gray-700 text-base" *ngIf="!loader && item.description == null">
-                    No description available </p>
-                <ngx-skeleton-loader count="2" appearance="line" *ngIf="loader"></ngx-skeleton-loader>
+<div class="container mx-auto " *ngIf="loader">
+    <div class="grid grid-cols-1 md:grid-cols-2   p-4 ">
+        <div class=" rounded overflow-hidden shadow-lg outline outline-sky-300	rounded-2xl  m-3 " *ngFor="let item of cardSkeleton ">
+            <div class="px-3 py-4">
+                <ngx-skeleton-loader count="1" appearance="line" [theme]="{width:'50%'}"></ngx-skeleton-loader>
+
+
+                <ngx-skeleton-loader count="2" appearance="line"></ngx-skeleton-loader>
 
             </div>
             <div class="px-6 pt-4 pb-2">
-                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2" *ngIf="!loader && item.language != null">{{item.language}}</span>
-                <ngx-skeleton-loader count="1" appearance="line" *ngIf="loader" [theme]="{width:'7rem', margin:'0 1rem'}"></ngx-skeleton-loader>
+                <ngx-skeleton-loader count="1" appearance="line" [theme]="{width:'7rem', margin:'0 1rem'}"></ngx-skeleton-loader>
 
-                <!-- <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2" *ngIf="!loader">#travel</span>
-                <ngx-skeleton-loader count="1" appearance="line" *ngIf="loader" [theme]="{width:'7rem', margin:'0 1rem'}"></ngx-skeleton-loader>
-
-                <span class=" inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 " *ngIf="!loader">#winter</span>
-                <ngx-skeleton-loader count="1" appearance="line" *ngIf="loader" [theme]="{width:'7rem', margin:'0 1rem'}"></ngx-skeleton-loader> -->
 
             </div>
         </div>
     </div>
 </div>
 
-<mat-paginator #paginator class="demo-paginator centerpaination " (page)="handlePageEvent($event) " [length]="length " [pageSize]="pageSize " [disabled]="disabled " [showFirstLastButtons]="showFirstLastButtons " [pageSizeOptions]="showPageSizeOptions
+<mat-paginator *ngIf="!loader" #paginator class="demo-paginator centerpaination " (page)="handlePageEvent($event) " [length]="username.public_repos " [pageSize]="pageSize " [disabled]="disabled " [showFirstLastButtons]="showFirstLastButtons " [pageSizeOptions]="showPageSizeOptions
                     ? pageSizeOptions : [] " [hidePageSize]="hidePageSize " [pageIndex]="pageIndex - 1 " aria-label="Select page ">
 </mat-paginator>

@@ -4,8 +4,8 @@
 
         <div class="col-span-1">
             <div class="w-full">
-                <input type="text" class="inputClass p-2 rounded-full border focus:outline-none focus:border-blue-500 hover:border-blue-300 transition-all" placeholder="Enter GitHub Username" />
-                <button data-te-ripple-init data-te-ripple-color="primary" class="inline-block rounded-full bg-sky-400 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-700 shadow-md transition duration-150 ease-in-out hover:bg-sky-300 hover:shadow-lg focus:bg-sky-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-neutral-400 active:shadow-lg">
+                <input [(ngModel)]="username" type="text" pattern="[^ ]*" class="inputClass p-2 rounded-full border focus:outline-none focus:border-blue-500 hover:border-blue-300 transition-all" placeholder="Enter GitHub Username" />
+                <button (click)="search()" data-te-ripple-init data-te-ripple-color="primary" class="inline-block rounded-full bg-sky-400 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-700 shadow-md transition duration-150 ease-in-out hover:bg-sky-300 hover:shadow-lg focus:bg-sky-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-neutral-400 active:shadow-lg">
 
                 Search
               </button>
