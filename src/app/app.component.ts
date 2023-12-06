@@ -7,6 +7,7 @@ import { ApiService } from './services/api.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+  title = 'fyle-frontend-challenge';
   username: any;
   repos: any[] =[] ;
   loader = true;
@@ -17,21 +18,28 @@ export class AppComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.getUseCall('johnpapa');
+    this.getUseCall( true ,'johnpapa');
   }
 
-  getUseCall(data: string): void {
+  getUseCall(newUser: boolean, data: string): void {
     console.log(this.page)
     this.apiService.getUser(data).subscribe( user => {
       console.log(user);
       this.username =user;
-      this.page++;
+      newUser ? this.page = 1 : this.page++;
 
       this.apiService.getRepos(data , this.page,100).subscribe( (repos: any) => {
-        repos.forEach((element: any) => {
-          this.repos.push(element)
+        console.log(repos)
+        if(newUser){
+          this.repos = repos;
 
-        });
+        }else{
+          repos.forEach((element: any) => {
+            this.repos.push(element)
+
+          });
+        }
+
         console.log(this.repos)
 
       },

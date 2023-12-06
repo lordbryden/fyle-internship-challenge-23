@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AppComponent } from '../app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-repo-list',
   templateUrl: './repo-list.component.html',
-  styleUrls: ['./repo-list.component.scss']
+  styleUrls: ['./repo-list.component.scss'],
+  animations: [BrowserAnimationsModule],
 
 })
 export class RepoListComponent implements OnInit {
@@ -54,7 +56,7 @@ export class RepoListComponent implements OnInit {
     this.displayedItems = this.repos.slice(startIndex, endIndex);
     console.log(this.pageSize)
     if(endIndex % 100 === 0 && endIndex !== this.lastTriggeredPage && endIndex <= this.username.public_repos){
-      this.appcomponent.getUseCall(this.username.login);
+      this.appcomponent.getUseCall( false , this.username.login);
       this.lastTriggeredPage = endIndex;
 
     }

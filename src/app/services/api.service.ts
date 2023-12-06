@@ -8,7 +8,7 @@ import { tap, throwError } from 'rxjs';
 export class ApiService {
   searchData: any ;
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
   ) { }
 
   getUser(githubUsername: string) {
