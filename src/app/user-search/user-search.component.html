@@ -1,24 +1,37 @@
+<!-- Container for the entire search section -->
 <div class="container mx-auto">
+
+    <!-- Grid layout with responsive column settings -->
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+
+        <!-- Empty column to span two columns on larger screens (lg) -->
         <div class="lg:col-span-2"></div>
 
+        <!-- Search form column -->
         <div class="col-span-1">
-            <div class="w-full">
-                <form [formGroup]="myForm" (ngSubmit)="search()" novalidate>
-                    <input formControlName="username" type="text" class="inputClass p-2 rounded-full border focus:outline-none focus:border-blue-500 hover:border-blue-300 transition-all" placeholder="Enter GitHub Username" />
-                    <button type="submit" data-te-ripple-init data-te-ripple-color="primary" class="inline-block rounded-full bg-sky-400 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-700 shadow-md transition duration-150 ease-in-out hover:bg-sky-300 hover:shadow-lg focus:bg-sky-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-neutral-400 active:shadow-lg">
 
+            <!-- Form to input GitHub username and trigger search -->
+            <div class="w-full">
+                <!-- Reactive form setup with formGroup binding to myForm variable -->
+                <form [formGroup]="myForm" (ngSubmit)="search()" novalidate>
+
+                    <!-- Input field for GitHub username with styling -->
+                    <input (keyup.enter)="search()" formControlName="username" type="text" class="inputClass p-2 rounded-full border focus:outline-none focus:border-blue-500 hover:border-blue-300 transition-all" placeholder="Enter GitHub Username" />
+
+                    <!-- Search button with styling and click event triggering the search() method -->
+                    <button type="submit" data-te-ripple-init data-te-ripple-color="primary" class="inline-block rounded-full bg-sky-400 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-700 shadow-md transition duration-150 ease-in-out hover:bg-sky-300 hover:shadow-lg focus:bg-sky-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-neutral-400 active:shadow-lg">
                       Search
-                    </button>
+                  </button>
+
+                    <!-- Error message displayed if there are spaces in the username -->
                     <div *ngIf="myForm.get('username')?.hasError('noSpace')" class="text-red-700">
                         Username cannot contain spaces.
                     </div>
 
                 </form>
-
-
             </div>
 
         </div>
+
     </div>
 </div>

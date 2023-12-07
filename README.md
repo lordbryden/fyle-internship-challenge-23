@@ -41,3 +41,84 @@ Run `ng serve` for a dev server. Navigate to http://localhost:4200/. The app wil
 
 Visit the [Angular Documentation](https://angular.io/guide/styleguide) to learn more.
 Styling is to be strictly done with [Tailwind](https://tailwindcss.com/docs/installation).
+
+
+
+## Fru Blieden
+
+# Repo List Component
+
+The Repo List Component is an Angular component designed to display user and repository information from GitHub. It includes features such as a paginated list of repositories, user details, and an option to copy the GitHub profile URL to the clipboard.
+
+## Features
+
+- Display user information, including avatar, bio, and location.
+- Paginated list of repositories with optional loading animation.
+- Copy GitHub profile URL to the clipboard.
+- Customizable page size options for the repository list.
+
+## Usage
+<app-repo-list
+  [username]="yourGitHubUserData"
+  [loader]="isLoading"
+  [repos]="yourRepositoriesData"
+></app-repo-list>
+
+## user-search.component.ts
+    - Angular component for user search functionality.
+    - Dependencies: Angular core, ApiService, AppComponent, Angular FormBuilder.
+    - Usage: Integrates with the API service and the main app component for user search functionality.
+    - **Reactive Form:**
+      - Form Fields:
+        - Username: Text input for entering the GitHub username.
+      - Validators: Required field and custom validator (noSpaceValidator) to check for white spaces.
+
+    - **Custom Validator:**
+      - Name: noSpaceValidator
+      - Purpose: Validates that the username does not contain white spaces.
+      - Usage: Applied to the username field in the reactive form.
+
+    - **Search Method:**
+      - Name: search()
+      - Purpose: Triggered on form submission to initiate the user search.
+      - Functionality:
+        - Extracts the username from the form.
+        - Checks for white spaces in the username.
+        - If no white spaces, calls the `getUseCall` method in the main app component.
+
+        ## API Service
+
+### Overview
+
+The `ApiService` is responsible for interacting with the GitHub API to fetch user details and repositories.
+
+### Methods
+
+#### 1.getUser(githubUsername: string)
+
+- Purpose: Fetches details of a GitHub user.
+- Parameters:
+  - `githubUsername`: GitHub username for which to retrieve details.
+- Returns: Observable containing user details.
+
+#### 2. `getRepos(githubUsername: string, page: number, pageSize: number)`
+
+- Purpose: Fetches repositories for a GitHub user with pagination.
+- Parameters:
+  - `githubUsername`: GitHub username for which to retrieve repositories.
+  - `page`: Page number for paginated results.
+  - `pageSize`: Number of repositories per page.
+- Returns: Observable containing the list of repositories.
+
+### Usage
+
+1. Inject `ApiService` in the component or service where GitHub API data is required.
+
+2. Call the `getUser` or `getRepos` methods with the appropriate parameters.
+
+## Dependencies 
+
+ - Angular Material (ng add @angular/material)
+ - Skeleton loader (npm i ngx-skeleton-loader)
+ - Copy to clipboard  (import ClipboardModule) 
+ 

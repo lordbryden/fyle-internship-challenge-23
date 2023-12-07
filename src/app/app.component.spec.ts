@@ -6,6 +6,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Add this import
 import { RepoListComponent } from './repo-list/repo-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -14,7 +16,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent, UserSearchComponent,RepoListComponent], // Add UserSearchComponent to declarations
-      imports: [HttpClientTestingModule, MatPaginatorModule,ClipboardModule,BrowserAnimationsModule], // Add MatPaginatorModule
+      imports: [HttpClientTestingModule, MatPaginatorModule,ClipboardModule,BrowserAnimationsModule,ReactiveFormsModule,FormsModule,NgxSkeletonLoaderModule], // Add MatPaginatorModule
 
       // Add your dependencies, imports, providers here
     })

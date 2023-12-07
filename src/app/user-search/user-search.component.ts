@@ -9,35 +9,40 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./user-search.component.scss']
 })
 export class UserSearchComponent {
-  myForm: FormGroup ;
+  // Reactive form group for user input
+  myForm: FormGroup;
 
-
-  // username =  '';
   constructor(
-    private apiService : ApiService ,
-    private appcomponent : AppComponent,
+    private apiService: ApiService,
+    private appcomponent: AppComponent,
     private fb: FormBuilder
-    ) {
+  ) {
+    // Initialize the form with username field and custom validator
     this.myForm = this.fb.group({
       username: ['', [Validators.required, this.noSpaceValidator]]
     });
   }
+
+  // Custom validator to check for white spaces in the username
   noSpaceValidator(control: any) {
     if (control.value && control.value.indexOf(' ') >= 0) {
       return { noSpace: true };
     }
     return null;
   }
+
+  // Method triggered on form submission to initiate user search
   search(): void {
+    // Extract username from the form
     const username = this.myForm.value.username;
-      // Check if username contains white spaces
-  const hasWhiteSpace = /\s/.test(username);
 
-  if (!hasWhiteSpace) {
-    // Call the service to get user repos
-    console.log(username);
-    this.appcomponent.getUseCall(true, username);
-  }
-  }
+    // Check if username contains white spaces
+    const hasWhiteSpace = /\s/.test(username);
 
+    // If no white spaces, call the service to get user repos
+    if (!hasWhiteSpace) {
+      console.log(username);
+      this.appcomponent.getUseCall(true, username);
+    }
+  }
 }

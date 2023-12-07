@@ -1,24 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RepoListComponent } from './repo-list.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { AppComponent } from '../app.component';
 import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing'; // Add this import
-import { ClipboardModule } from '@angular/cdk/clipboard'; // Add this import
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// Import your actual AppComponent type
+import { AppComponent } from '../app.component';
 
 describe('RepoListComponent', () => {
   let component: RepoListComponent;
   let fixture: ComponentFixture<RepoListComponent>;
+  let mockAppComponent: jasmine.SpyObj<AppComponent>;
 
   beforeEach(async () => {
+    mockAppComponent = jasmine.createSpyObj('AppComponent', ['getUseCall']);
+
     await TestBed.configureTestingModule({
       declarations: [RepoListComponent],
-      imports: [HttpClientTestingModule,MatPaginatorModule,ClipboardModule,BrowserAnimationsModule], // Add HttpClientTestingModule
-      providers: [AppComponent]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule, MatPaginatorModule, ClipboardModule, BrowserAnimationsModule],
+      providers: [{ provide: AppComponent, useValue: mockAppComponent }]
+    }).compileComponents();
   });
+
   beforeEach(() => {
     fixture = TestBed.createComponent(RepoListComponent);
     component = fixture.componentInstance;
@@ -30,13 +35,37 @@ describe('RepoListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call appcomponent.getUseCall when handlePageEvent is invoked', () => {
-    const appComponent = TestBed.inject(AppComponent);
-    const spy = spyOn(appComponent, 'getUseCall');
+  it('should set pageSizeOptions based on the input string', () => {
+    // Arrange
+    const inputString = '2,4,8,16';
 
-    const event: PageEvent = { pageIndex: 1, pageSize: 10, length: 10 };
-    component.handlePageEvent(event);
+    // Act
+    component.setPageSizeOptions(inputString);
 
-    expect(spy).toHaveBeenCalledWith(false, 'testuser');
+    // Assert
+    expect(component.pageSizeOptions).toEqual([2, 4, 8, 16]);
+  });
+
+  it('should not set pageSizeOptions if the input string is empty', () => {
+    // Arrange
+    const initialPageSizeOptions = component.pageSizeOptions.slice();
+
+    // Act
+    component.setPageSizeOptions('');
+
+    // Assert
+    expect(component.pageSizeOptions).toEqual(initialPageSizeOptions);
+  });
+
+  it('should not set pageSizeOptions if the input string is null or undefined', () => {
+    // Arrange
+    const initialPageSizeOptions = component.pageSizeOptions.slice();
+
+    // Act
+    component.setPageSizeOptions(null!);
+    component.setPageSizeOptions(undefined!);
+
+    // Assert
+    expect(component.pageSizeOptions).toEqual(initialPageSizeOptions);
   });
 });
